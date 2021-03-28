@@ -9,5 +9,7 @@
       or implied. See the License for the specific language governing permissions and limitations under
       the License.
       -->
-    <string name="app_name">Cute Dogs</string>
+    <string name="app_name">ComposeDevChallenge</string>
+    <string name="dogs_adopt">DogAdopt</string>
+    <string name="countdown_timer">CountdownTimer</string>
 </resources>

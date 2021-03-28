@@ -28,7 +28,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.example.androiddevchallenge.DetailActivity" />
-    </application>
+        <activity
+            android:name="com.example.androiddevchallenge.dogadopt.DogListActivity"
+            android:label="@string/dogs_adopt" />
 
+        <activity android:name="com.example.androiddevchallenge.dogadopt.DogDetailActivity" />
+
+        <activity
+            android:name="com.example.androiddevchallenge.countdowntimer.CountdownTimerActivity"
+            android:label="@string/countdown_timer" />
+    </application>
 </manifest>
