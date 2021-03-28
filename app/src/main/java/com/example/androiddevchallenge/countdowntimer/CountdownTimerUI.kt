@@ -1,5 +1,6 @@
 package com.example.androiddevchallenge.countdowntimer
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,9 +13,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomCenter
+import androidx.compose.ui.Alignment.Companion.BottomEnd
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -46,7 +53,7 @@ fun CountdownTimerUI(viewModel: CountdownTimerViewModel) {
             StartUI(viewModel)
         }
         TimerState.RUNNING, TimerState.PAUSED -> {
-            RunningUI(viewModel)
+            RunningUI(viewModel, MaterialTheme.colors.primary)
         }
         TimerState.COMPLETED -> {
             CompletedUI(viewModel)
@@ -76,7 +83,7 @@ fun StartUI(viewModel: CountdownTimerViewModel) {
                         .border(1.dp, Color.LightGray)
                         .clickable { viewModel.callback.onHourAdd?.invoke(1) }
                 ) {
-                    Text("+", Modifier.align(Alignment.Center))
+                    Text("+", Modifier.align(Center))
                 }
                 Box(
                     Modifier
@@ -85,7 +92,7 @@ fun StartUI(viewModel: CountdownTimerViewModel) {
                 ) {
                     Text(
                         text = String.format("%02d", hourValue),
-                        modifier = Modifier.align(Alignment.Center),
+                        modifier = Modifier.align(Center),
                         style = textStyle
                     )
                 }
@@ -96,7 +103,7 @@ fun StartUI(viewModel: CountdownTimerViewModel) {
                         .border(1.dp, Color.LightGray)
                         .clickable { viewModel.callback.onHourAdd?.invoke(-1) }
                 ) {
-                    Text(text = "-", modifier = Modifier.align(Alignment.Center))
+                    Text(text = "-", modifier = Modifier.align(Center))
                 }
             }
 
@@ -113,7 +120,7 @@ fun StartUI(viewModel: CountdownTimerViewModel) {
                 ) {
                     Text(
                         text = ":",
-                        modifier = Modifier.align(Alignment.Center),
+                        modifier = Modifier.align(Center),
                         style = textStyle
                     )
                 }
@@ -132,7 +139,7 @@ fun StartUI(viewModel: CountdownTimerViewModel) {
                         .border(1.dp, Color.LightGray)
                         .clickable { viewModel.callback.onMinuteAdd?.invoke(1) }
                 ) {
-                    Text(text = "+", modifier = Modifier.align(Alignment.Center))
+                    Text(text = "+", modifier = Modifier.align(Center))
                 }
                 Box(
                     Modifier
@@ -141,7 +148,7 @@ fun StartUI(viewModel: CountdownTimerViewModel) {
                 ) {
                     Text(
                         text = String.format("%02d", minuteValue),
-                        modifier = Modifier.align(Alignment.Center),
+                        modifier = Modifier.align(Center),
                         style = textStyle
                     )
                 }
@@ -152,7 +159,7 @@ fun StartUI(viewModel: CountdownTimerViewModel) {
                         .border(1.dp, Color.LightGray)
                         .clickable { viewModel.callback.onMinuteAdd?.invoke(-1) }
                 ) {
-                    Text(text = "-", modifier = Modifier.align(Alignment.Center))
+                    Text(text = "-", modifier = Modifier.align(Center))
                 }
             }
 
@@ -169,7 +176,7 @@ fun StartUI(viewModel: CountdownTimerViewModel) {
                 ) {
                     Text(
                         text = ":",
-                        modifier = Modifier.align(Alignment.Center),
+                        modifier = Modifier.align(Center),
                         style = textStyle
                     )
                 }
@@ -188,7 +195,7 @@ fun StartUI(viewModel: CountdownTimerViewModel) {
                         .border(1.dp, Color.LightGray)
                         .clickable { viewModel.callback.onSecondAdd?.invoke(1) }
                 ) {
-                    Text(text = "+", modifier = Modifier.align(Alignment.Center))
+                    Text(text = "+", modifier = Modifier.align(Center))
                 }
                 Box(
                     Modifier
@@ -197,7 +204,7 @@ fun StartUI(viewModel: CountdownTimerViewModel) {
                 ) {
                     Text(
                         text = String.format("%02d", secondValue),
-                        modifier = Modifier.align(Alignment.Center),
+                        modifier = Modifier.align(Center),
                         style = textStyle
                     )
                 }
@@ -208,12 +215,12 @@ fun StartUI(viewModel: CountdownTimerViewModel) {
                         .border(1.dp, Color.LightGray)
                         .clickable { viewModel.callback.onSecondAdd?.invoke(-1) }
                 ) {
-                    Text(text = "-", modifier = Modifier.align(Alignment.Center))
+                    Text(text = "-", modifier = Modifier.align(Center))
                 }
             }
         }
 
-        Spacer(modifier = Modifier.size(50.dp, 50.dp))
+        Spacer(modifier = Modifier.size(50.dp, 150.dp))
 
         Row(Modifier.align(Alignment.CenterHorizontally)) {
             Button(
@@ -238,8 +245,9 @@ fun StartUI(viewModel: CountdownTimerViewModel) {
 }
 
 @Composable
-fun RunningUI(viewModel: CountdownTimerViewModel) {
+fun RunningUI(viewModel: CountdownTimerViewModel, primary: Color) {
     val leftMillisecond: Long by viewModel.leftMillisecondLiveData.observeAsState(0L)
+    val totalMillisecond: Long by viewModel.totalMillisecondLiveData.observeAsState(0L)
     val timerState: TimerState by viewModel.timerStateLiveData.observeAsState(TimerState.NONE)
 
     Column(
@@ -247,13 +255,58 @@ fun RunningUI(viewModel: CountdownTimerViewModel) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = DateUtils.formatTimeLength(leftMillisecond, "%H:%M:%S:%MS"),
-            fontWeight = FontWeight.Bold,
-            fontSize = 30.sp
-        )
+        val size = 260.dp
+        Box(Modifier.size(size, size)) {
+            Canvas(Modifier.fillMaxSize()) {
+                val stokeWidth = 12.dp.toPx()
+                drawCircle(
+                    color = Color.LightGray,
+                    style = Stroke(
+                        width = stokeWidth,
+                        pathEffect = PathEffect.dashPathEffect(
+                            intervals = floatArrayOf(1.dp.toPx(), 3.dp.toPx())
+                        )
+                    )
+                )
 
-        Spacer(modifier = Modifier.size(50.dp, 50.dp))
+                // Draw ring
+                val sweepAngle = (leftMillisecond.toFloat() / totalMillisecond) * 360
+                drawArc(
+                    brush = Brush.linearGradient(listOf(primary, primary)),
+                    startAngle = -90f,
+                    sweepAngle = sweepAngle,
+                    useCenter = false,
+                    style = Stroke(
+                        width = stokeWidth,
+                        pathEffect = PathEffect.dashPathEffect(
+                            intervals = floatArrayOf(1.dp.toPx(), 3.dp.toPx())
+                        )
+                    ),
+                    alpha = 0.5f
+                )
+            }
+            Box(Modifier.fillMaxWidth().align(Center)) {
+                Text(
+                    text = DateUtils.formatTimeLength(leftMillisecond, "%H:%M:%S"),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 40.sp,
+                    modifier = Modifier.align(Center)
+                )
+                Text(
+                    text = String.format("%03d", leftMillisecond % 1000),
+                    fontSize = 16.sp,
+                    modifier = Modifier.align(BottomEnd).padding(end = 18.dp, bottom = 8.dp)
+                )
+            }
+
+            Text(
+                text = DateUtils.formatTimeLength(totalMillisecond, "%h?h %m?m %s?s"),
+                fontSize = 20.sp,
+                modifier = Modifier.align(BottomCenter).padding(bottom = 50.dp)
+            )
+        }
+
+        Spacer(modifier = Modifier.size(150.dp, 150.dp))
 
         Row(Modifier.align(Alignment.CenterHorizontally)) {
             Button(
@@ -301,15 +354,18 @@ fun CompletedUI(viewModel: CountdownTimerViewModel) {
 
         Text(
             text = "Countdown ends!",
-            fontSize = 24.sp,
+            fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
         )
 
         Spacer(modifier = Modifier.size(10.dp, 10.dp))
 
-        Text(text = DateUtils.formatTimeLength(totalMillisecond, "%h?h %m?m %s?s"))
+        Text(
+            text = DateUtils.formatTimeLength(totalMillisecond, "%h?h %m?m %s?s"),
+            fontSize = 20.sp
+        )
 
-        Spacer(modifier = Modifier.size(50.dp, 50.dp))
+        Spacer(modifier = Modifier.size(50.dp, 150.dp))
 
         Button(
             modifier = Modifier.size(100.dp, 40.dp),
@@ -334,7 +390,7 @@ fun StartUIPreview() {
 fun RunningUIPreview() {
     MyTheme {
         Surface(color = MaterialTheme.colors.background) {
-            RunningUI(CountdownTimerViewModel())
+            RunningUI(CountdownTimerViewModel(), MaterialTheme.colors.primary)
         }
     }
 }

@@ -159,7 +159,7 @@ public class DateUtils {
             if (daySuffix != null || hourSuffix != null || minuteSuffix != null || secondSuffix != null) {
                 millisecond = timeLength % oneSecondMilliseconds;
             } else {
-                millisecond = timeLength / oneSecondMilliseconds;
+                millisecond = timeLength;
             }
             if (millisecond > 0) {
                 builder.append(millisecondPad ? String.format("%03d", millisecond) : millisecond).append(millisecondSuffix);
@@ -169,7 +169,9 @@ public class DateUtils {
         }
 
         if (builder.length() == 0) {
-            if (secondSuffix != null) {
+            if (millisecondSuffix != null) {
+                builder.append(millisecondPad ? String.format("%03d", 0) : 0).append(millisecondSuffix);
+            } else if (secondSuffix != null) {
                 builder.append(secondPad ? String.format("%02d", 0) : 0).append(secondSuffix);
             } else if (minuteSuffix != null) {
                 builder.append(minutePad ? String.format("%02d", 0) : 0).append(minuteSuffix);
