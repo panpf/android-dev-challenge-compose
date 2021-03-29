@@ -285,7 +285,10 @@ fun RunningUI(viewModel: CountdownTimerViewModel, primary: Color) {
                     alpha = 0.5f
                 )
             }
-            Box(Modifier.fillMaxWidth().align(Center)) {
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .align(Center)) {
                 Text(
                     text = DateUtils.formatTimeLength(leftMillisecond, "%H:%M:%S"),
                     fontWeight = FontWeight.Bold,
@@ -295,14 +298,18 @@ fun RunningUI(viewModel: CountdownTimerViewModel, primary: Color) {
                 Text(
                     text = String.format("%03d", leftMillisecond % 1000),
                     fontSize = 16.sp,
-                    modifier = Modifier.align(BottomEnd).padding(end = 18.dp, bottom = 8.dp)
+                    modifier = Modifier
+                        .align(BottomEnd)
+                        .padding(end = 18.dp, bottom = 8.dp)
                 )
             }
 
             Text(
                 text = DateUtils.formatTimeLength(totalMillisecond, "%h?h %m?m %s?s"),
                 fontSize = 20.sp,
-                modifier = Modifier.align(BottomCenter).padding(bottom = 50.dp)
+                modifier = Modifier
+                    .align(BottomCenter)
+                    .padding(bottom = 50.dp)
             )
         }
 
@@ -343,6 +350,7 @@ fun CompletedUI(viewModel: CountdownTimerViewModel) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Image(
             painter = painterResource(id = R.drawable.ic_alarm),
             contentDescription = null,
