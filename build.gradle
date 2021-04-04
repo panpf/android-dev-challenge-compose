@@ -38,6 +38,7 @@ subprojects {
     repositories {
         google()
         jcenter()
+        maven { setUrl("https://dl.bintray.com/panpf/maven") }
     }
 
     apply plugin: 'com.diffplug.spotless'

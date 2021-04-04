@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.ui.theme.MyTheme
-import com.example.androiddevchallenge.utils.DateUtils
+import com.github.panpf.tools4j.date.ktx.formatDuration
 
 class CountdownTimerUICallback(
     val onHourAdd: ((Int) -> Unit)? = null,
@@ -290,7 +290,7 @@ fun RunningUI(viewModel: CountdownTimerViewModel, primary: Color) {
                     .fillMaxWidth()
                     .align(Center)) {
                 Text(
-                    text = DateUtils.formatTimeLength(leftMillisecond, "%H:%M:%S"),
+                    text = leftMillisecond.formatDuration("%H:%M:%S"),
                     fontWeight = FontWeight.Bold,
                     fontSize = 40.sp,
                     modifier = Modifier.align(Center)
@@ -305,7 +305,7 @@ fun RunningUI(viewModel: CountdownTimerViewModel, primary: Color) {
             }
 
             Text(
-                text = DateUtils.formatTimeLength(totalMillisecond, "%h?h %m?m %s?s"),
+                text = totalMillisecond.formatDuration("%h?h %m?m %s?s"),
                 fontSize = 20.sp,
                 modifier = Modifier
                     .align(BottomCenter)
@@ -369,7 +369,7 @@ fun CompletedUI(viewModel: CountdownTimerViewModel) {
         Spacer(modifier = Modifier.size(10.dp, 10.dp))
 
         Text(
-            text = DateUtils.formatTimeLength(totalMillisecond, "%h?h %m?m %s?s"),
+            text = totalMillisecond.formatDuration("%h?h %m?m %s?s"),
             fontSize = 20.sp
         )
 
