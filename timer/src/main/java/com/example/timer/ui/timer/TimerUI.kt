@@ -1,4 +1,4 @@
-package com.example.timer.ui
+package com.example.timer.ui.timer
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -28,7 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.dogadopt.ui.theme.MyTheme
+import com.example.timer.ui.theme.MyTheme
 import com.example.timer.R
 import com.github.panpf.tools4j.date.ktx.formatDuration
 

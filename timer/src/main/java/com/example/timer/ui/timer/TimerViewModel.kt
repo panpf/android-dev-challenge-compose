@@ -1,4 +1,4 @@
-package com.example.timer.ui
+package com.example.timer.ui.timer
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

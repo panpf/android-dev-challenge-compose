@@ -1,4 +1,4 @@
-package com.example.dogadopt.ui
+package com.example.dogadopt.ui.doglist
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

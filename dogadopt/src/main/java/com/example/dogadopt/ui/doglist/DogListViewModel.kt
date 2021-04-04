@@ -1,4 +1,4 @@
-package com.example.dogadopt.ui
+package com.example.dogadopt.ui.doglist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

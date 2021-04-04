@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dogadopt.ui
+package com.example.dogadopt.ui.dogdetail
 
 import android.os.Bundle
 import androidx.activity.compose.setContent

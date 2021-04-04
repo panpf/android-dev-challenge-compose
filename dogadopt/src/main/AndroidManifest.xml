@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidDevChallenge">
         <activity
-            android:name="com.example.dogadopt.ui.DogListActivity"
+            android:name="com.example.dogadopt.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +28,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.DogDetailActivity" />
+        <activity android:name=".ui.dogdetail.DogDetailActivity" />
     </application>
 </manifest>
