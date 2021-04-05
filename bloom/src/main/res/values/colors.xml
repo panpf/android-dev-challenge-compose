@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray">#FF888888</color>
+    <color name="darkGray">#FF444444</color>
+    <color name="lightGray">#FFCCCCCC</color>
+
+    <color name="primary">#FFFFF1F1</color>
+    <color name="secondary">#FF3F2C2C</color>
+    <color name="background">#FFFFFFFF</color>
+    <color name="surface">#D8FFFFFF</color>
+    <color name="onPrimary">#FF232323</color>
+    <color name="onSecondary">#FFFFFFFF</color>
+    <color name="onBackground">#FF232323</color>
+    <color name="onSurface">#FF232323</color>
+
+    <color name="subtitle1">#FF232323</color>
+    <color name="buttonBg">@color/secondary</color>
+    <color name="buttonText">#FFFFFFFF</color>
+    <color name="buttonBg_noBg">#00000000</color>
+    <color name="buttonText_noBg">#FF3F2C2C</color>
+</resources>
